@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Upload and Transcription</title>
+  </head>
+
+  <body>
+    <h1>Upload Audio for Transcription</h1>
+    <input type="file" id="audioFile" accept="audio/*" />
+    <button onclick="uploadAudio()">Upload and Transcribe</button>
+    <p id="transcription"></p>
+
+    <script>
+      async function uploadAudio() {
+        const fileInput = document.getElementById("audioFile");
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("Please select a file.");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+          const response = await fetch("http://127.0.0.1:5001/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              "Network response was not ok " + response.statusText
+            );
+          }
+
+          const data = await response.json();
+          document.getElementById("transcription").innerText =
+            data.transcription;
+        } catch (error) {
+          console.error("Error:", error);
+          document.getElementById("transcription").innerText =
+            "Error: " + error.message;
+        }
+      }
+    </script>
+  </body>
+</html>

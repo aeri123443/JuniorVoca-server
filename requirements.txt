@@ -1,0 +1,8 @@
+Flask==2.0.3
+flask-cors==3.0.10
+torch==1.11.0
+transformers==4.18.0
+librosa==0.8.1
+numpy==1.22.0
+openai-whisper
+Werkzeug==2.0.3
